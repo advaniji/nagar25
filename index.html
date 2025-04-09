@@ -134,70 +134,88 @@
       setInterval(showRandomQuote, 60000); // 60 * 1000 ms = 1 minute
     }
 
-    // Motivational Quotes with API Fallbacks
+// 65+ Motivational Quotes
     function showRandomQuote() {
-      const quoteContainer = document.getElementById('motivationalQuote');
+      const quotes = [
+        { quote: "Satyameva Jayate (Truth alone triumphs)", author: "Mundaka Upanishad" },
+        { quote: "Arise, awake, and stop not till the goal is reached", author: "Swami Vivekananda" },
+        { quote: "The future depends on what we do in the present", author: "Mahatma Gandhi" },
+        { quote: "Don't take rest after your first victory...", author: "Dr. APJ Abdul Kalam" },
+        { quote: "Success is the sum of small efforts, repeated day in and day out", author: "Robert Collier" },
+        { quote: "The difference between ordinary and extraordinary is that little extra", author: "Jimmy Johnson" },
+        { quote: "The capacity to learn is a gift; the ability to learn is a skill; the willingness to learn is a choice", author: "Brian Herbert" },
+        { quote: "There are no secrets to success. It is the result of preparation, hard work, and learning from failure", author: "Colin Powell" },
+        { quote: "The only place where success comes before work is in the dictionary", author: "Vidal Sassoon" },
+        { quote: "I find that the harder I work, the more luck I seem to have", author: "Thomas Jefferson" },
+        { quote: "Success is walking from failure to failure with no loss of enthusiasm", author: "Winston Churchill" },
+        { quote: "The secret of getting ahead is getting started", author: "Mark Twain" },
+        { quote: "Don't let what you cannot do interfere with what you can do", author: "John Wooden" },
+        { quote: "Perseverance is failing 19 times and succeeding the 20th", author: "Julie Andrews" },
+        { quote: "The will to win, the desire to succeed... these are the keys to excellence", author: "Confucius" },
+        { quote: "Aim for the moon. If you miss, you may hit a star", author: "W. Clement Stone" },
+        { quote: "Your time is limited, so don't waste it living someone else's life", author: "Steve Jobs" },
+        { quote: "The best way to predict your future is to create it", author: "Abraham Lincoln" },
+        { quote: "Strength does not come from physical capacity. It comes from an indomitable will", author: "Mahatma Gandhi" },
+        { quote: "Learning is like rowing upstream: not to advance is to drop back", author: "Chinese Proverb" },
+        { quote: "The man who moves mountains begins by carrying small stones", author: "Confucius" },
+        { quote: "It's not whether you get knocked down, it's whether you get up", author: "Vince Lombardi" },
+        { quote: "The only true wisdom is in knowing you know nothing", author: "Socrates" },
+        { quote: "Education is the most powerful weapon you can use to change the world", author: "Nelson Mandela" },
+        { quote: "What you do today can improve all your tomorrows", author: "Ralph Marston" },
+        { quote: "The journey of a thousand miles begins with one step", author: "Lao Tzu" },
+        { quote: "You don't have to be great to start, but you have to start to be great", author: "Zig Ziglar" },
+        { quote: "The expert in anything was once a beginner", author: "Helen Hayes" },
+        { quote: "Continuous effort - not strength or intelligence - is the key to unlocking our potential", author: "Winston Churchill" },
+        { quote: "The price of success is hard work, dedication to the job at hand", author: "Vince Lombardi" },
+        { quote: "There are no shortcuts to any place worth going", author: "Beverly Sills" },
+        { quote: "Success seems to be connected with action. Successful people keep moving", author: "Conrad Hilton" },
+        { quote: "The only limit to our realization of tomorrow will be our doubts of today", author: "Franklin D. Roosevelt" },
+        { quote: "What lies behind us and what lies before us are tiny matters compared to what lies within us", author: "Ralph Waldo Emerson" },
+        { quote: "The secret of success is to do the common thing uncommonly well", author: "John D. Rockefeller" },
+        { quote: "Don't count the days, make the days count", author: "Muhammad Ali" },
+        { quote: "The best preparation for tomorrow is doing your best today", author: "H. Jackson Brown Jr." },
+        { quote: "The difference between a successful person and others is not lack of strength, not lack of knowledge, but lack in will", author: "Vince Lombardi" },
+        { quote: "The only way to do great work is to love what you do", author: "Steve Jobs" },
+        { quote: "Your potential is endless. Go do what you were created to do", author: "Oprah Winfrey" },
+        { quote: "The more you sweat in peace, the less you bleed in war", author: "Chanakya" },
+        { quote: "Even if you fall on your face, you're still moving forward", author: "Victor Kiam" },
+        { quote: "The gem cannot be polished without friction, nor man perfected without trials", author: "Chinese Proverb" },
+        { quote: "It always seems impossible until it's done", author: "Nelson Mandela" },
+        { quote: "You are never too old to set another goal or to dream a new dream", author: "C.S. Lewis" },
+        { quote: "The only person you are destined to become is the person you decide to be", author: "Ralph Waldo Emerson" },
+        { quote: "Start where you are. Use what you have. Do what you can", author: "Arthur Ashe" },
+        { quote: "The mind is not a vessel to be filled, but a fire to be kindled", author: "Plutarch" },
+        { quote: "The beautiful thing about learning is that no one can take it away from you", author: "B.B. King" },
+        { quote: "Success is no accident. It is hard work, perseverance, learning, sacrifice and love", author: "Pele" },
+        { quote: "The road to success and the road to failure are almost exactly the same", author: "Colin R. Davis" },
+        { quote: "Perseverance is not a long race; it is many short races one after the other", author: "Walter Elliot" },
+        { quote: "The successful warrior is the average man, with laser-like focus", author: "Bruce Lee" },
+        { quote: "What you get by achieving your goals is not as important as what you become", author: "Zig Ziglar" },
+        { quote: "The only thing standing between you and your goal is the story you keep telling yourself", author: "Jordan Belfort" },
+        { quote: "Discipline is the bridge between goals and accomplishment", author: "Jim Rohn" },
+        { quote: "You don't drown by falling in water; you drown by staying there", author: "Ed Cole" },
+        { quote: "The elevator to success is out of order. You'll have to use the stairs... one step at a time", author: "Joe Girard" },
+        { quote: "Successful people do what unsuccessful people are not willing to do", author: "Jeff Olson" },
+        { quote: "The best revenge is massive success", author: "Frank Sinatra" },
+        { quote: "If you want to achieve excellence, you can get there today. As of this second, quit doing less-than-excellent work", author: "Thomas J. Watson" },
+        { quote: "The only thing that overcomes hard luck is hard work", author: "Harry Golden" },
+        { quote: "There is no substitute for hard work", author: "Thomas Edison" },
+        { quote: "Opportunities don't happen. You create them", author: "Chris Grosser" },
+        { quote: "The way to get started is to quit talking and begin doing", author: "Walt Disney" },
+        { quote: "The successful person makes a habit of doing what the failing person doesn't like to do", author: "Thomas Edison" },
+        { quote: "You have to dream before your dreams can come true", author: "Dr. APJ Abdul Kalam" },
+        { quote: "Excellence is a continuous process and not an accident", author: "Dr. APJ Abdul Kalam" },
+        { quote: "All of us do not have equal talent. But all of us have equal opportunity to develop our talents", author: "Dr. APJ Abdul Kalam" }
+      ];
 
-      // Try API Ninjas first
-      fetch('https://api.api-ninjas.com/v1/quotes?category=inspirational', {
-        // NOTE: It's generally recommended to hide API keys, e.g., using a backend proxy or environment variables.
-        // This key is included for direct browser-side functionality as per the original code.
-        headers: { 'X-Api-Key': 'UoZQOaGr/NlucBsGLgP/Zg==TPL2dMzEFTHRkWj8' }
-      })
-      .then(response => {
-          if (!response.ok) { throw new Error(`API Ninjas Error: ${response.status}`); }
-          return response.json();
-      })
-      .then(data => {
-          if (data && data[0]?.quote) {
-              quoteContainer.innerHTML = `
-                  <i class="fas fa-quote-left me-2 opacity-75"></i>
-                  <span class="fst-italic">${data[0].quote}</span>
-                  <div class="text-end mt-2 text-muted">- ${data[0].author || 'Unknown'}</div>
-              `;
-          } else {
-              console.warn("API Ninjas returned empty or invalid data.");
-              throw new Error('No quote found from API Ninjas');
-          }
-      })
-      .catch(error => {
-          console.error("Failed to fetch quote from API Ninjas:", error);
-          // Fallback to The Quotes Hub
-          fetch('https://thequoteshub.com/api/quotes/random') // Ensure this API is still active and CORS allows access
-              .then(response => {
-                   if (!response.ok) { throw new Error(`TheQuotesHub Error: ${response.status}`); }
-                   return response.json();
-               })
-              .then(data => {
-                  if (data?.quote) {
-                      quoteContainer.innerHTML = `
-                          <i class="fas fa-quote-left me-2 opacity-75"></i>
-                          <span class="fst-italic">${data.quote}</span>
-                          <div class="text-end mt-2 text-muted">- ${data.author || 'Unknown'}</div>
-                      `;
-                  } else {
-                      console.warn("TheQuotesHub returned empty or invalid data.");
-                      fallbackLocalQuotes();
-                  }
-              })
-              .catch(error => {
-                 console.error("Failed to fetch quote from TheQuotesHub:", error);
-                 fallbackLocalQuotes();
-              });
-      });
+      const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+      document.getElementById('motivationalQuote').innerHTML = `
+        <i class="fas fa-quote-left me-2 opacity-75"></i>
+        <span class="fst-italic">${randomQuote.quote}</span>
+        <div class="text-end mt-2 text-muted">- ${randomQuote.author}</div>
+      `;
+    }
 
-      // Local fallback function if both APIs fail
-      function fallbackLocalQuotes() {
-          console.log("Using fallback local quotes.");
-          const quotes = [
-              { quote: "Satyameva Jayate (Truth alone triumphs)", author: "Mundaka Upanishad" },
-              { quote: "Arise, awake, and stop not till the goal is reached", author: "Swami Vivekananda" },
-              { quote: "The future depends on what we do in the present", author: "Mahatma Gandhi" },
-              { quote: "Don't take rest after your first victory because if you fail in second, more lips are waiting to say that your first victory was just luck.", author: "Dr. APJ Abdul Kalam" },
-              { quote: "Success is the sum of small efforts, repeated day in and day out", author: "Robert Collier" },
-              { quote: "Believe you can and you're halfway there.", author: "Theodore Roosevelt"},
-              { quote: "The harder you work for something, the greater you'll feel when you achieve it.", author: "Unknown"}
-          ];
           const randomQuoteData = quotes[Math.floor(Math.random() * quotes.length)];
           quoteContainer.innerHTML = `
               <i class="fas fa-quote-left me-2 opacity-75"></i>
