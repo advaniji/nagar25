@@ -11,32 +11,32 @@
       --primary-color: #2a2a72;
       --secondary-color: #009ffd;
       --accent-color: #ff3c00;
-     }
+    }
 
     body {
       background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
       min-height: 100vh;
       font-family: 'Helvetica Neue', sans-serif;
-     }
+    }
 
     .countdown-card {
       background: rgba(255, 255, 255, 0.9);
       border-radius: 15px;
       backdrop-filter: blur(10px);
-     }
+    }
 
     /* Style for past dates (grayed out) */
     .past-date {
       background-color: #f8f9fa !important; /* Light gray background */
       color: #6c757d !important; /* Muted text color */
-     }
+    }
 
     /* Style for the current date */
     .current-date {
       background-color: #e3f2fd !important; /* Light blue background */
       font-weight: 600;
       position: relative;
-     }
+    }
 
     /* "Today" marker for the current date row */
     .current-date td:first-child::after { /* Apply marker near the date cell */
@@ -51,33 +51,33 @@
       background-color: rgba(255, 255, 255, 0.7);
       padding: 0.1rem 0.4rem;
       border-radius: 4px;
-     }
+    }
 
     .schedule-table {
       background: white;
       border-radius: 15px;
       overflow: hidden;
       box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-     }
+    }
 
     .quote-card {
       border-left: 4px solid var(--secondary-color);
       background: rgba(255, 255, 255, 0.9);
       padding: 1.5rem;
       border-radius: 8px;
-     }
+    }
 
     .progress-bar-custom {
       height: 8px;
       border-radius: 4px;
       background-color: #e0e0e0;
-     }
+    }
 
     .progress-custom {
       height: 100%;
       background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
       transition: width 0.5s ease;
-     }
+    }
   </style>
 </head>
 <body>
@@ -94,11 +94,11 @@
       <div class="progress-bar-custom mt-3">
         <div id="timeProgress" class="progress-custom" style="width: 0%"></div>
       </div>
-       <p class="text-center text-muted mt-2 mb-0"><small>Target: May 25, 2025 08:00 AM IST</small></p>
+      <p class="text-center text-muted mt-2 mb-0"><small>Target: May 25, 2025 08:00 AM IST</small></p>
     </div>
 
     <div id="motivationalQuote" class="quote-card shadow mb-5">
-        <div class="text-center text-muted">Loading motivational quote...</div>
+      <div class="text-center text-muted">Loading motivational quote...</div>
     </div>
 
     <div class="schedule-table shadow-lg">
@@ -134,7 +134,7 @@
       setInterval(showRandomQuote, 60000); // 60 * 1000 ms = 1 minute
     }
 
-// 65+ Motivational Quotes
+    // 65+ Motivational Quotes
     function showRandomQuote() {
       const quotes = [
         { quote: "Satyameva Jayate (Truth alone triumphs)", author: "Mundaka Upanishad" },
@@ -214,15 +214,6 @@
         <span class="fst-italic">${randomQuote.quote}</span>
         <div class="text-end mt-2 text-muted">- ${randomQuote.author}</div>
       `;
-    }
-
-          const randomQuoteData = quotes[Math.floor(Math.random() * quotes.length)];
-          quoteContainer.innerHTML = `
-              <i class="fas fa-quote-left me-2 opacity-75"></i>
-              <span class="fst-italic">${randomQuoteData.quote}</span>
-              <div class="text-end mt-2 text-muted">- ${randomQuoteData.author}</div>
-          `;
-      }
     }
 
     // Enhanced Countdown with IST and Progress Bar
@@ -312,16 +303,16 @@
           { date: '2025-04-25', focus: 'Ratta', test: 'SFG1-10,11,12,16 SFG2-1,2' },
           { date: '2025-04-26', focus: 'Economy', test: 'NxT-7,8,9' },
           { date: '2025-04-27', focus: 'Abhyas-2', test: 'Abhyas-2' },
-          { date: '2025-04-28', focus: 'Ratta', test: 'SFG1-14,15 SFG2-4,7' }, // Assuming SFG1-1415 was a typo for 14,15
+          { date: '2025-04-28', focus: 'Ratta', test: 'SFG1-14,15 SFG2-4,7' },
           { date: '2025-04-29', focus: 'Economy', test: 'NxT-10,11,12' },
           { date: '2025-04-30', focus: 'Revision', test: 'Revision' },
-          { date: '2025-05-01', focus: 'Ratta', test: 'SFG1-43,44,45,46 SFG2-33' }, // Added commas for clarity
+          { date: '2025-05-01', focus: 'Ratta', test: 'SFG1-43,44,45,46 SFG2-33' },
           { date: '2025-05-02', focus: 'A&M History', test: 'NxT-13,14,15' },
           { date: '2025-05-03', focus: 'Revision', test: 'Revision' },
           { date: '2025-05-04', focus: 'Ratta', test: 'SFG1-23,26,27 SFG2-25,26,28' },
           { date: '2025-05-05', focus: 'Modern History', test: 'NxT-16,17,18' },
           { date: '2025-05-06', focus: 'Revision', test: 'Revision' },
-          { date: '2025-05-07', focus: 'Ratta', test: 'SFG1-31,32,33 SFG2-8,9,10' }, // Added commas for clarity
+          { date: '2025-05-07', focus: 'Ratta', test: 'SFG1-31,32,33 SFG2-8,9,10' },
           { date: '2025-05-08', focus: 'Geography', test: 'NxT-19,20,21' },
           { date: '2025-05-09', focus: 'Revision', test: 'Revision' },
           { date: '2025-05-10', focus: 'Ratta', test: 'NxT-ST4,SC4' },
@@ -344,47 +335,34 @@
         const now = new Date(); // Get the current moment
 
         // Get today's date formatted as YYYY-MM-DD in the IST timezone.
-        // 'en-CA' locale reliably produces the YYYY-MM-DD format needed for string comparison.
         const todayISTStr = now.toLocaleDateString('en-CA', { timeZone: 'Asia/Kolkata' });
-        // Example: If today is April 9th, 2025 IST, todayISTStr will be "2025-04-09"
 
         scheduleData.forEach(entry => {
             const row = document.createElement('tr');
-            const entryDateStr = entry.date; // The date from data is already YYYY-MM-DD
-
-            // Parse the entry date string into a Date object *only* for formatting display date.
-            // Explicitly set time and timezone offset (+05:30 for IST).
+            const entryDateStr = entry.date;
             const entryDateObj = new Date(entry.date + 'T00:00:00+05:30');
 
             let statusBadge;
             let rowClass = '';
 
-            // Compare dates as strings (YYYY-MM-DD format ensures correct chronological comparison)
             if (entryDateStr < todayISTStr) {
-                // Date is in the past
                 statusBadge = '<span class="badge bg-secondary rounded-pill">Completed</span>';
-                rowClass = 'past-date'; // Apply past date styling (greying out)
+                rowClass = 'past-date';
             } else if (entryDateStr === todayISTStr) {
-                // Date is today
                 statusBadge = '<span class="badge bg-primary rounded-pill">Today</span>';
-                rowClass = 'current-date'; // Apply current date styling
+                rowClass = 'current-date';
             } else {
-                // Date is in the future
                 statusBadge = '<span class="badge bg-success rounded-pill">Upcoming</span>';
-                // No special class for upcoming dates needed by default
             }
 
-            // Add the determined class to the row if applicable
             if (rowClass) row.classList.add(rowClass);
 
-            // Format the date using the Date object we created for display purposes
             const formattedDate = entryDateObj.toLocaleDateString('en-IN', {
                   day: '2-digit',
                   month: 'short',
                   year: 'numeric',
-                  timeZone: 'Asia/Kolkata' // Ensure display consistency using IST
-              }).replace(/-/g, ' '); // Format like "11 Apr 2025"
-
+                  timeZone: 'Asia/Kolkata'
+              }).replace(/-/g, ' ');
 
             row.innerHTML = `
                 <td>${formattedDate}</td>
