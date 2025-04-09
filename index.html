@@ -3,268 +3,306 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Password Protected Test Schedule Tracker</title>
+  <title>Prelims 2025 Countdown & Schedule Tracker</title>
   <!-- Bootstrap CSS -->
   <link
     rel="stylesheet"
     href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-    integrity="sha384-Mmawkg5W8fdf21twX5zQa4mI+YIYir63gLxF9wHhKStg+RZ69W0odVBRq0UQ69dk"
     crossorigin="anonymous"
-  >
+  />
+  <!-- Font Awesome -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    crossorigin="anonymous"
+  />
   <style>
     body {
-      background-color: #f8f9fa;
+      background: #f4f7f6;
     }
-    .container {
-      margin-top: 30px;
+    .password-card, .content-card {
+      max-width: 500px;
+      margin: 50px auto;
     }
-    #content {
-      display: none;
+    #countdown {
+      font-size: 1.5rem;
+      font-weight: bold;
     }
   </style>
   <script>
+    // Function to check password and reveal protected content
     function checkPassword() {
       var pwd = document.getElementById('password').value;
       if (pwd === 'kishu') {
         document.getElementById('loginForm').style.display = 'none';
         document.getElementById('content').style.display = 'block';
+        startCountdown();
       } else {
         alert("Incorrect password!");
       }
+    }
+    
+    // Countdown timer function
+    function startCountdown() {
+      // Set countdown date to 25 May 2025 08:00:00
+      var countDownDate = new Date("May 25, 2025 08:00:00").getTime();
+      
+      // Update the count down every 1 second
+      var countdownFunction = setInterval(function() {
+        var now = new Date().getTime();
+        var distance = countDownDate - now;
+        
+        // Calculate days and hours remaining
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        
+        // Display result
+        document.getElementById("countdown").innerHTML = days + " days " + hours + " hours remaining till prelims 2025";
+        
+        // If the countdown is finished, display a message
+        if (distance < 0) {
+          clearInterval(countdownFunction);
+          document.getElementById("countdown").innerHTML = "Prelims 2025 has started!";
+        }
+      }, 1000);
     }
   </script>
 </head>
 <body>
   <div class="container">
-    <!-- Password Form -->
-    <div id="loginForm">
-      <h2 class="text-center">Password Required</h2>
-      <div class="form-group">
-        <label for="password">Enter Password:</label>
-        <input type="password" id="password" class="form-control" placeholder="Password">
+    <!-- Password Card -->
+    <div id="loginForm" class="card password-card shadow">
+      <div class="card-body">
+        <h3 class="card-title text-center mb-4">
+          <i class="fas fa-lock"></i> Enter Password
+        </h3>
+        <div class="form-group">
+          <input type="password" id="password" class="form-control" placeholder="Enter Password">
+        </div>
+        <button class="btn btn-primary btn-block" onclick="checkPassword()">Submit</button>
       </div>
-      <button class="btn btn-primary btn-block" onclick="checkPassword()">Submit</button>
     </div>
 
     <!-- Protected Content -->
-    <div id="content">
-      <h1 class="text-center">Test Schedule Tracker</h1>
-      <div class="table-responsive">
-        <table class="table table-striped">
-          <thead class="thead-dark">
-            <tr>
-              <th>Date</th>
-              <th>Target</th>
-              <th>Test</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>11-Apr-2025</td>
-              <td>ENVIRONMENT</td>
-              <td>NxT-22,23,24</td>
-            </tr>
-            <tr>
-              <td>12-Apr-2025</td>
-              <td>revision</td>
-              <td>revision</td>
-            </tr>
-            <tr>
-              <td>13-Apr-2025</td>
-              <td>ratta</td>
-              <td>sfg1-37,38 sfg2-30,31</td>
-            </tr>
-            <tr>
-              <td>14-Apr-2025</td>
-              <td>S&amp;T</td>
-              <td>NxT-25,26,27</td>
-            </tr>
-            <tr>
-              <td>15-Apr-2025</td>
-              <td>revision</td>
-              <td>revision</td>
-            </tr>
-            <tr>
-              <td>16-Apr-2025</td>
-              <td>Ratta</td>
-              <td>randon tests IR-mapping-bodies</td>
-            </tr>
-            <tr>
-              <td>17-Apr-2025</td>
-              <td>Other</td>
-              <td>Sfg1-36, Sfg2-40</td>
-            </tr>
-            <tr>
-              <td>18-Apr-2025</td>
-              <td>revision</td>
-              <td>revision</td>
-            </tr>
-            <tr>
-              <td>19-Apr-2025</td>
-              <td>Ratta</td>
-              <td>sfg1-1,2,6 sfg2-21,22</td>
-            </tr>
-            <tr>
-              <td>20-Apr-2025</td>
-              <td>Polity</td>
-              <td>NxT-1,2,3</td>
-            </tr>
-            <tr>
-              <td>21-Apr-2025</td>
-              <td>revision</td>
-              <td>revision</td>
-            </tr>
-            <tr>
-              <td>22-Apr-2025</td>
-              <td>Ratta</td>
-              <td>sfg1-2,8,9 sfg2-24</td>
-            </tr>
-            <tr>
-              <td>23-Apr-2025</td>
-              <td>Polity</td>
-              <td>NxT-4,5,6</td>
-            </tr>
-            <tr>
-              <td>24-Apr-2025</td>
-              <td>revision</td>
-              <td>revision</td>
-            </tr>
-            <tr>
-              <td>25-Apr-2025</td>
-              <td>Ratta</td>
-              <td>sfg1-10,11,12,16 sfg2-1,2</td>
-            </tr>
-            <tr>
-              <td>26-Apr-2025</td>
-              <td>Economy</td>
-              <td>NxT-7,8,9</td>
-            </tr>
-            <tr>
-              <td>27-Apr-2025</td>
-              <td>Abhyas-2</td>
-              <td>Abhyas-2</td>
-            </tr>
-            <tr>
-              <td>28-Apr-2025</td>
-              <td>Ratta</td>
-              <td>sfg1-1415 sfg2-4,7</td>
-            </tr>
-            <tr>
-              <td>29-Apr-2025</td>
-              <td>Economy</td>
-              <td>NxT-10,11,12</td>
-            </tr>
-            <tr>
-              <td>30-Apr-2025</td>
-              <td>revision</td>
-              <td>revision</td>
-            </tr>
-            <tr>
-              <td>1-May-2025</td>
-              <td>Ratta</td>
-              <td>sfg1-43-44-45-46 sfg2-33</td>
-            </tr>
-            <tr>
-              <td>2-May-2025</td>
-              <td>A&amp;M history</td>
-              <td>Nxt-13,14,15</td>
-            </tr>
-            <tr>
-              <td>3-May-2025</td>
-              <td>revision</td>
-              <td>revision</td>
-            </tr>
-            <tr>
-              <td>4-May-2025</td>
-              <td>Ratta</td>
-              <td>sfg1-23,26,27 sfg2-25,26,28</td>
-            </tr>
-            <tr>
-              <td>5-May-2025</td>
-              <td>Modern History</td>
-              <td>NxT-16,17,18</td>
-            </tr>
-            <tr>
-              <td>6-May-2025</td>
-              <td>revision</td>
-              <td>revision</td>
-            </tr>
-            <tr>
-              <td>7-May-2025</td>
-              <td>Ratta</td>
-              <td>sfg1-31-32-33 sfg2-8,9,10</td>
-            </tr>
-            <tr>
-              <td>8-May-2025</td>
-              <td>Geography</td>
-              <td>NxT-19,20,21</td>
-            </tr>
-            <tr>
-              <td>9-May-2025</td>
-              <td>revision</td>
-              <td>revision</td>
-            </tr>
-            <tr>
-              <td>10-May-2025</td>
-              <td>Ratta</td>
-              <td>Nxt-ST4,SC4</td>
-            </tr>
-            <tr>
-              <td>11-May-2025</td>
-              <td>Abhyas-3</td>
-              <td>Abhyas-3</td>
-            </tr>
-            <tr>
-              <td>12-May-2025</td>
-              <td>rest</td>
-              <td>rest</td>
-            </tr>
-            <tr>
-              <td>13-May-2025</td>
-              <td>FLT</td>
-              <td>NxT-ST1,SC1</td>
-            </tr>
-            <tr>
-              <td>14-May-2025</td>
-              <td>FLT</td>
-              <td>any</td>
-            </tr>
-            <tr>
-              <td>15-May-2025</td>
-              <td>FLT</td>
-              <td>any</td>
-            </tr>
-            <tr>
-              <td>16-May-2025</td>
-              <td>Revision</td>
-              <td>Revision</td>
-            </tr>
-            <tr>
-              <td>17-May-2025</td>
-              <td>FLT</td>
-              <td>Nxt-ST5,SC5</td>
-            </tr>
-          </tbody>
-        </table>
+    <div id="content" style="display: none;">
+      <!-- Countdown Section -->
+      <div class="jumbotron text-center shadow">
+        <h1 class="display-4">Prelims 2025 Countdown</h1>
+        <p id="countdown">Loading countdown...</p>
       </div>
-    </div>
-  </div>
+
+      <!-- Test Schedule Table -->
+      <div class="card content-card shadow">
+        <div class="card-body">
+          <h3 class="card-title text-center mb-4">
+            <i class="fas fa-calendar-alt"></i> Test Schedule Tracker
+          </h3>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead class="thead-dark">
+                <tr>
+                  <th>Date</th>
+                  <th>Target</th>
+                  <th>Test</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>11-Apr-2025</td>
+                  <td>ENVIRONMENT</td>
+                  <td>NxT-22,23,24</td>
+                </tr>
+                <tr>
+                  <td>12-Apr-2025</td>
+                  <td>revision</td>
+                  <td>revision</td>
+                </tr>
+                <tr>
+                  <td>13-Apr-2025</td>
+                  <td>ratta</td>
+                  <td>sfg1-37,38 sfg2-30,31</td>
+                </tr>
+                <tr>
+                  <td>14-Apr-2025</td>
+                  <td>S&amp;T</td>
+                  <td>NxT-25,26,27</td>
+                </tr>
+                <tr>
+                  <td>15-Apr-2025</td>
+                  <td>revision</td>
+                  <td>revision</td>
+                </tr>
+                <tr>
+                  <td>16-Apr-2025</td>
+                  <td>Ratta</td>
+                  <td>randon tests IR-mapping-bodies</td>
+                </tr>
+                <tr>
+                  <td>17-Apr-2025</td>
+                  <td>Other</td>
+                  <td>Sfg1-36, Sfg2-40</td>
+                </tr>
+                <tr>
+                  <td>18-Apr-2025</td>
+                  <td>revision</td>
+                  <td>revision</td>
+                </tr>
+                <tr>
+                  <td>19-Apr-2025</td>
+                  <td>Ratta</td>
+                  <td>sfg1-1,2,6 sfg2-21,22</td>
+                </tr>
+                <tr>
+                  <td>20-Apr-2025</td>
+                  <td>Polity</td>
+                  <td>NxT-1,2,3</td>
+                </tr>
+                <tr>
+                  <td>21-Apr-2025</td>
+                  <td>revision</td>
+                  <td>revision</td>
+                </tr>
+                <tr>
+                  <td>22-Apr-2025</td>
+                  <td>Ratta</td>
+                  <td>sfg1-2,8,9 sfg2-24</td>
+                </tr>
+                <tr>
+                  <td>23-Apr-2025</td>
+                  <td>Polity</td>
+                  <td>NxT-4,5,6</td>
+                </tr>
+                <tr>
+                  <td>24-Apr-2025</td>
+                  <td>revision</td>
+                  <td>revision</td>
+                </tr>
+                <tr>
+                  <td>25-Apr-2025</td>
+                  <td>Ratta</td>
+                  <td>sfg1-10,11,12,16 sfg2-1,2</td>
+                </tr>
+                <tr>
+                  <td>26-Apr-2025</td>
+                  <td>Economy</td>
+                  <td>NxT-7,8,9</td>
+                </tr>
+                <tr>
+                  <td>27-Apr-2025</td>
+                  <td>Abhyas-2</td>
+                  <td>Abhyas-2</td>
+                </tr>
+                <tr>
+                  <td>28-Apr-2025</td>
+                  <td>Ratta</td>
+                  <td>sfg1-1415 sfg2-4,7</td>
+                </tr>
+                <tr>
+                  <td>29-Apr-2025</td>
+                  <td>Economy</td>
+                  <td>NxT-10,11,12</td>
+                </tr>
+                <tr>
+                  <td>30-Apr-2025</td>
+                  <td>revision</td>
+                  <td>revision</td>
+                </tr>
+                <tr>
+                  <td>1-May-2025</td>
+                  <td>Ratta</td>
+                  <td>sfg1-43-44-45-46 sfg2-33</td>
+                </tr>
+                <tr>
+                  <td>2-May-2025</td>
+                  <td>A&amp;M history</td>
+                  <td>Nxt-13,14,15</td>
+                </tr>
+                <tr>
+                  <td>3-May-2025</td>
+                  <td>revision</td>
+                  <td>revision</td>
+                </tr>
+                <tr>
+                  <td>4-May-2025</td>
+                  <td>Ratta</td>
+                  <td>sfg1-23,26,27 sfg2-25,26,28</td>
+                </tr>
+                <tr>
+                  <td>5-May-2025</td>
+                  <td>Modern History</td>
+                  <td>NxT-16,17,18</td>
+                </tr>
+                <tr>
+                  <td>6-May-2025</td>
+                  <td>revision</td>
+                  <td>revision</td>
+                </tr>
+                <tr>
+                  <td>7-May-2025</td>
+                  <td>Ratta</td>
+                  <td>sfg1-31-32-33 sfg2-8,9,10</td>
+                </tr>
+                <tr>
+                  <td>8-May-2025</td>
+                  <td>Geography</td>
+                  <td>NxT-19,20,21</td>
+                </tr>
+                <tr>
+                  <td>9-May-2025</td>
+                  <td>revision</td>
+                  <td>revision</td>
+                </tr>
+                <tr>
+                  <td>10-May-2025</td>
+                  <td>Ratta</td>
+                  <td>Nxt-ST4,SC4</td>
+                </tr>
+                <tr>
+                  <td>11-May-2025</td>
+                  <td>Abhyas-3</td>
+                  <td>Abhyas-3</td>
+                </tr>
+                <tr>
+                  <td>12-May-2025</td>
+                  <td>rest</td>
+                  <td>rest</td>
+                </tr>
+                <tr>
+                  <td>13-May-2025</td>
+                  <td>FLT</td>
+                  <td>NxT-ST1,SC1</td>
+                </tr>
+                <tr>
+                  <td>14-May-2025</td>
+                  <td>FLT</td>
+                  <td>any</td>
+                </tr>
+                <tr>
+                  <td>15-May-2025</td>
+                  <td>FLT</td>
+                  <td>any</td>
+                </tr>
+                <tr>
+                  <td>16-May-2025</td>
+                  <td>Revision</td>
+                  <td>Revision</td>
+                </tr>
+                <tr>
+                  <td>17-May-2025</td>
+                  <td>FLT</td>
+                  <td>Nxt-ST5,SC5</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div><!-- End Schedule Card -->
+    </div><!-- End Protected Content -->
+  </div><!-- End Container -->
 
   <!-- Bootstrap JS and dependencies -->
-  <script
-    src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-    integrity="sha384-DfXdFqjB0fq1kFSNgTNYTwhZtbL07X/3KpGQ0BZ3fIo0zGj1dCu4I5CUtr/oiN9G"
-    crossorigin="anonymous">
-  </script>
-  <script
-    src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
-    integrity="sha384-9/reFTGAW83EW2RDuAykvA5ZcA6Jz7QhGQYSa+5urv7xxg2Ew/aEn9m2N3nYamI4"
-    crossorigin="anonymous">
-  </script>
-  <script
-    src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
-    integrity="sha384-B4gt1jrGC7Jh4AgDq8yifScFq/A2ouObA0+2zdw5v39xwD4ExK5FQ0WkmkXoV4No"
-    crossorigin="anonymous">
-  </script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" crossorigin="anonymous"></script>
 </body>
 </html>
