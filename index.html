@@ -11,109 +11,96 @@
       --primary-color: #2a2a72;
       --secondary-color: #009ffd;
       --accent-color: #ff3c00;
-    }
+     }
 
     body {
       background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
       min-height: 100vh;
       font-family: 'Helvetica Neue', sans-serif;
-    }
+     }
 
     .countdown-card {
       background: rgba(255, 255, 255, 0.9);
       border-radius: 15px;
       backdrop-filter: blur(10px);
-      margin-bottom: 2rem;
-    }
+     }
 
+    /* Style for past dates (grayed out) */
     .past-date {
-      background-color: #f8f9fa !important;
-      color: #6c757d !important;
-    }
+      background-color: #f8f9fa !important; /* Light gray background */
+      color: #6c757d !important; /* Muted text color */
+     }
 
+    /* Style for the current date */
     .current-date {
-      background-color: #e3f2fd !important;
+      background-color: #e3f2fd !important; /* Light blue background */
       font-weight: 600;
       position: relative;
-    }
+     }
 
-    .current-date::after {
+    /* "Today" marker for the current date row */
+    .current-date td:first-child::after { /* Apply marker near the date cell */
       content: "Today";
       position: absolute;
       right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
       font-size: 0.8rem;
+      font-weight: bold;
       color: var(--primary-color);
-    }
-
-    .urgent-date {
-      background-color: #ffecec !important;
-    }
+      background-color: rgba(255, 255, 255, 0.7);
+      padding: 0.1rem 0.4rem;
+      border-radius: 4px;
+     }
 
     .schedule-table {
       background: white;
       border-radius: 15px;
       overflow: hidden;
       box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-    }
+     }
 
     .quote-card {
       border-left: 4px solid var(--secondary-color);
-      background: rgba(255, 255, 255, 0.95);
-      padding: 1.5rem 2rem;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 1.5rem;
       border-radius: 8px;
-      font-style: italic;
-      position: relative;
-      margin-bottom: 2rem;
-    }
-
-    .quote-card blockquote {
-      margin: 0;
-    }
-
-    .quote-card i {
-      position: absolute;
-      top: -15px;
-      left: -10px;
-      font-size: 3rem;
-      color: var(--secondary-color);
-    }
+     }
 
     .progress-bar-custom {
       height: 8px;
       border-radius: 4px;
       background-color: #e0e0e0;
-    }
+     }
 
     .progress-custom {
       height: 100%;
       background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
       transition: width 0.5s ease;
-    }
+     }
   </style>
 </head>
 <body>
 
-  <!-- Main Content -->
   <div id="mainContent" class="container-fluid py-4">
-    <!-- Header -->
     <div class="text-center mb-5">
       <h1 class="display-5 fw-bold text-primary">UPSC Prelims 2025 Preparation Planner</h1>
       <p class="lead">Strategic Study Plan for Civil Services Aspirants</p>
     </div>
 
-    <!-- Countdown Section -->
-    <div class="countdown-card p-4 shadow">
-      <h2 class="text-center mb-3"><i class="fas fa-clock"></i> Countdown</h2>
+    <div class="countdown-card p-4 mb-5 shadow">
+      <h2 class="text-center mb-3"><i class="fas fa-clock me-2"></i>Countdown to Prelims 2025</h2>
       <div id="countdown" class="text-center fs-4"></div>
       <div class="progress-bar-custom mt-3">
         <div id="timeProgress" class="progress-custom" style="width: 0%"></div>
       </div>
+       <p class="text-center text-muted mt-2 mb-0"><small>Target: May 25, 2025 08:00 AM IST</small></p>
     </div>
 
-    <!-- Motivational Quote -->
-    <div id="motivationalQuote" class="quote-card shadow"></div>
+    <div id="motivationalQuote" class="quote-card shadow mb-5">
+        <div class="text-center text-muted">Loading motivational quote...</div>
+    </div>
 
-    <!-- Schedule Table -->
     <div class="schedule-table shadow-lg">
       <div class="p-3 bg-primary text-white">
         <h4 class="mb-0"><i class="fas fa-calendar-alt me-2"></i> Study Plan Timeline</h4>
@@ -129,14 +116,13 @@
             </tr>
           </thead>
           <tbody id="scheduleBody">
-            <!-- Schedule rows will be inserted here -->
+            <tr><td colspan="4" class="text-center p-3">Loading schedule...</td></tr>
           </tbody>
         </table>
       </div>
     </div>
   </div>
 
-  <!-- JS Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     // Application Initialization
@@ -144,207 +130,257 @@
       startCountdown();
       showRandomQuote();
       initializeSchedule();
-      // Refresh the motivational quote every minute (only while the page is active)
-      setInterval(showRandomQuote, 60000);
+      // Refresh the motivational quote every minute
+      setInterval(showRandomQuote, 60000); // 60 * 1000 ms = 1 minute
     }
 
-    // Motivational Quotes with API Fallbacks and Enhanced Style
+    // Motivational Quotes with API Fallbacks
     function showRandomQuote() {
       const quoteContainer = document.getElementById('motivationalQuote');
-      // Clear previous content
-      quoteContainer.innerHTML = '';
-      
+
       // Try API Ninjas first
       fetch('https://api.api-ninjas.com/v1/quotes?category=inspirational', {
+        // NOTE: It's generally recommended to hide API keys, e.g., using a backend proxy or environment variables.
+        // This key is included for direct browser-side functionality as per the original code.
         headers: { 'X-Api-Key': 'UoZQOaGr/NlucBsGLgP/Zg==TPL2dMzEFTHRkWj8' }
       })
-        .then(response => response.json())
-        .then(data => {
-          if (data[0] && data[0].quote) {
-            quoteContainer.innerHTML = `
-              <i class="fas fa-quote-left"></i>
-              <blockquote>${data[0].quote}</blockquote>
-              <div class="text-end mt-2 text-muted">- ${data[0].author}</div>
-            `;
+      .then(response => {
+          if (!response.ok) { throw new Error(`API Ninjas Error: ${response.status}`); }
+          return response.json();
+      })
+      .then(data => {
+          if (data && data[0]?.quote) {
+              quoteContainer.innerHTML = `
+                  <i class="fas fa-quote-left me-2 opacity-75"></i>
+                  <span class="fst-italic">${data[0].quote}</span>
+                  <div class="text-end mt-2 text-muted">- ${data[0].author || 'Unknown'}</div>
+              `;
           } else {
-            throw new Error('No quote found');
+              console.warn("API Ninjas returned empty or invalid data.");
+              throw new Error('No quote found from API Ninjas');
           }
-        })
-        .catch(() => {
+      })
+      .catch(error => {
+          console.error("Failed to fetch quote from API Ninjas:", error);
           // Fallback to The Quotes Hub
-          fetch('https://thequoteshub.com/api/quotes/random')
-            .then(response => response.json())
-            .then(data => {
-              if (data && data.quote) {
-                quoteContainer.innerHTML = `
-                  <i class="fas fa-quote-left"></i>
-                  <blockquote>${data.quote}</blockquote>
-                  <div class="text-end mt-2 text-muted">- ${data.author}</div>
-                `;
-              } else {
-                fallbackLocalQuotes();
-              }
-            })
-            .catch(fallbackLocalQuotes);
-      
+          fetch('https://thequoteshub.com/api/quotes/random') // Ensure this API is still active and CORS allows access
+              .then(response => {
+                   if (!response.ok) { throw new Error(`TheQuotesHub Error: ${response.status}`); }
+                   return response.json();
+               })
+              .then(data => {
+                  if (data?.quote) {
+                      quoteContainer.innerHTML = `
+                          <i class="fas fa-quote-left me-2 opacity-75"></i>
+                          <span class="fst-italic">${data.quote}</span>
+                          <div class="text-end mt-2 text-muted">- ${data.author || 'Unknown'}</div>
+                      `;
+                  } else {
+                      console.warn("TheQuotesHub returned empty or invalid data.");
+                      fallbackLocalQuotes();
+                  }
+              })
+              .catch(error => {
+                 console.error("Failed to fetch quote from TheQuotesHub:", error);
+                 fallbackLocalQuotes();
+              });
+      });
+
+      // Local fallback function if both APIs fail
       function fallbackLocalQuotes() {
-        const quotes = [
-          "Satyameva Jayate (Truth alone triumphs) - Mundaka Upanishad",
-          "Arise, awake, and stop not till the goal is reached - Swami Vivekananda",
-          "The future depends on what we do in the present - Mahatma Gandhi",
-          "Don't take rest after your first victory - Dr. APJ Abdul Kalam",
-          "Success is the sum of small efforts, repeated day in and day out - R. Collier"
-        ];
-        const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-        quoteContainer.innerHTML = `
-          <i class="fas fa-quote-left"></i>
-          <blockquote>${randomQuote}</blockquote>
-        `;
+          console.log("Using fallback local quotes.");
+          const quotes = [
+              { quote: "Satyameva Jayate (Truth alone triumphs)", author: "Mundaka Upanishad" },
+              { quote: "Arise, awake, and stop not till the goal is reached", author: "Swami Vivekananda" },
+              { quote: "The future depends on what we do in the present", author: "Mahatma Gandhi" },
+              { quote: "Don't take rest after your first victory because if you fail in second, more lips are waiting to say that your first victory was just luck.", author: "Dr. APJ Abdul Kalam" },
+              { quote: "Success is the sum of small efforts, repeated day in and day out", author: "Robert Collier" },
+              { quote: "Believe you can and you're halfway there.", author: "Theodore Roosevelt"},
+              { quote: "The harder you work for something, the greater you'll feel when you achieve it.", author: "Unknown"}
+          ];
+          const randomQuoteData = quotes[Math.floor(Math.random() * quotes.length)];
+          quoteContainer.innerHTML = `
+              <i class="fas fa-quote-left me-2 opacity-75"></i>
+              <span class="fst-italic">${randomQuoteData.quote}</span>
+              <div class="text-end mt-2 text-muted">- ${randomQuoteData.author}</div>
+          `;
       }
     }
 
-    // Enhanced Countdown with IST
+    // Enhanced Countdown with IST and Progress Bar
     function startCountdown() {
-      // Target date: UPSC Prelims 2025 (IST)
-      const countDownDate = new Date("May 25, 2025 08:00:00 GMT+0530").getTime();
-      // Start date for progress tracking (January 1, 2024, IST)
+      // Target date: May 25, 2025, 8:00:00 AM Indian Standard Time (GMT+0530)
+      const countDownDate = new Date("2025-05-25T08:00:00+05:30").getTime();
+      // Start date for progress calculation (approximate start of prep)
       const startDate = new Date("2024-01-01T00:00:00+05:30").getTime();
-      const totalDuration = countDownDate - startDate;
+      const totalDuration = countDownDate > startDate ? countDownDate - startDate : 1; // Avoid division by zero
 
-      function updateTimer() {
-        const now = new Date().getTime();
-        const distance = countDownDate - now;
+      const countdownElement = document.getElementById("countdown");
+      const timeProgressElement = document.getElementById('timeProgress');
 
-        // Calculate time components
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-        // Update the countdown display
-        document.getElementById("countdown").innerHTML = `
-          <div class="row text-center gx-2">
-            <div class="col-3">
-              <div class="display-5">${days}</div>
-              <small class="text-muted">Days</small>
-            </div>
-            <div class="col-3">
-              <div class="display-5">${hours}</div>
-              <small class="text-muted">Hours</small>
-            </div>
-            <div class="col-3">
-              <div class="display-5">${minutes}</div>
-              <small class="text-muted">Minutes</small>
-            </div>
-            <div class="col-3">
-              <div class="display-5">${seconds}</div>
-              <small class="text-muted">Seconds</small>
-            </div>
-          </div>
-        `;
-
-        // Update the progress bar (capped at 100%)
-        const progress = ((now - startDate) / totalDuration) * 100;
-        document.getElementById('timeProgress').style.width = `${Math.min(progress, 100)}%`;
-
-        if (distance > 0) {
-          requestAnimationFrame(updateTimer);
-        }
+      if (!countdownElement || !timeProgressElement) {
+          console.error("Countdown or Progress element not found!");
+          return;
       }
+
+      const updateTimer = () => {
+          const now = new Date().getTime();
+          const distance = countDownDate - now;
+
+          if (distance > 0) {
+              // Calculate time components
+              const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+              const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+              const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+              const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+              // Update the countdown display
+              countdownElement.innerHTML = `
+                  <div class="row text-center gx-2">
+                      <div class="col-3">
+                          <div class="display-5">${days}</div>
+                          <small class="text-muted">Days</small>
+                      </div>
+                      <div class="col-3">
+                          <div class="display-5">${hours}</div>
+                          <small class="text-muted">Hours</small>
+                      </div>
+                      <div class="col-3">
+                          <div class="display-5">${minutes}</div>
+                          <small class="text-muted">Minutes</small>
+                      </div>
+                      <div class="col-3">
+                          <div class="display-5">${seconds}</div>
+                          <small class="text-muted">Seconds</small>
+                      </div>
+                  </div>
+              `;
+
+              // Calculate progress percentage
+              const elapsedTime = now - startDate;
+              const progress = Math.max(0, Math.min((elapsedTime / totalDuration) * 100, 100)); // Clamp between 0 and 100
+              timeProgressElement.style.width = `${progress}%`;
+
+              // Use requestAnimationFrame for smooth updates
+              requestAnimationFrame(updateTimer);
+          } else {
+              // Exam time has arrived or passed
+              countdownElement.innerHTML = `<div class="alert alert-success">The Exam Day is Here! Good Luck!</div>`;
+              timeProgressElement.style.width = '100%';
+          }
+      };
+
+      // Initial call to start the timer
       requestAnimationFrame(updateTimer);
     }
 
-    // Schedule Initialization (with status and urgency fixes)
+    // Schedule Initialization - REVISED LOGIC
     function initializeSchedule() {
-      const scheduleData = [
-        { date: '2025-04-11', focus: 'ENVIRONMENT', test: 'NxT-22,23,24' },
-        { date: '2025-04-12', focus: 'Revision', test: 'Revision' },
-        { date: '2025-04-13', focus: 'Ratta', test: 'SFG1-37,38 SFG2-30,31' },
-        { date: '2025-04-14', focus: 'S&T', test: 'NxT-25,26,27' },
-        { date: '2025-04-15', focus: 'Revision', test: 'Revision' },
-        { date: '2025-04-16', focus: 'Ratta', test: 'Random Tests IR Mapping' },
-        { date: '2025-04-17', focus: 'Other', test: 'SFG1-36 SFG2-40' },
-        { date: '2025-04-18', focus: 'Revision', test: 'Revision' },
-        { date: '2025-04-19', focus: 'Ratta', test: 'SFG1-1,2,6 SFG2-21,22' },
-        { date: '2025-04-20', focus: 'Polity', test: 'NxT-1,2,3' },
-        { date: '2025-04-21', focus: 'Revision', test: 'Revision' },
-        { date: '2025-04-22', focus: 'Ratta', test: 'SFG1-2,8,9 SFG2-24' },
-        { date: '2025-04-23', focus: 'Polity', test: 'NxT-4,5,6' },
-        { date: '2025-04-24', focus: 'Revision', test: 'Revision' },
-        { date: '2025-04-25', focus: 'Ratta', test: 'SFG1-10,11,12,16 SFG2-1,2' },
-        { date: '2025-04-26', focus: 'Economy', test: 'NxT-7,8,9' },
-        { date: '2025-04-27', focus: 'Abhyas-2', test: 'Abhyas-2' },
-        { date: '2025-04-28', focus: 'Ratta', test: 'SFG1-1415 SFG2-4,7' },
-        { date: '2025-04-29', focus: 'Economy', test: 'NxT-10,11,12' },
-        { date: '2025-04-30', focus: 'Revision', test: 'Revision' },
-        { date: '2025-05-01', focus: 'Ratta', test: 'SFG1-43-44-45-46 SFG2-33' },
-        { date: '2025-05-02', focus: 'A&M History', test: 'NxT-13,14,15' },
-        { date: '2025-05-03', focus: 'Revision', test: 'Revision' },
-        { date: '2025-05-04', focus: 'Ratta', test: 'SFG1-23,26,27 SFG2-25,26,28' },
-        { date: '2025-05-05', focus: 'Modern History', test: 'NxT-16,17,18' },
-        { date: '2025-05-06', focus: 'Revision', test: 'Revision' },
-        { date: '2025-05-07', focus: 'Ratta', test: 'SFG1-31-32-33 SFG2-8,9,10' },
-        { date: '2025-05-08', focus: 'Geography', test: 'NxT-19,20,21' },
-        { date: '2025-05-09', focus: 'Revision', test: 'Revision' },
-        { date: '2025-05-10', focus: 'Ratta', test: 'NxT-ST4,SC4' },
-        { date: '2025-05-11', focus: 'Abhyas-3', test: 'Abhyas-3' },
-        { date: '2025-05-12', focus: 'Rest', test: 'Rest' },
-        { date: '2025-05-13', focus: 'FLT', test: 'NxT-ST1,SC1' },
-        { date: '2025-05-14', focus: 'FLT', test: 'Any' },
-        { date: '2025-05-15', focus: 'FLT', test: 'Any' },
-        { date: '2025-05-16', focus: 'Revision', test: 'Revision' },
-        { date: '2025-05-17', focus: 'FLT', test: 'NxT-ST5,SC5' }
-      ];
+        const scheduleData = [
+          { date: '2025-04-11', focus: 'ENVIRONMENT', test: 'NxT-22,23,24' },
+          { date: '2025-04-12', focus: 'Revision', test: 'Revision' },
+          { date: '2025-04-13', focus: 'Ratta', test: 'SFG1-37,38 SFG2-30,31' },
+          { date: '2025-04-14', focus: 'S&T', test: 'NxT-25,26,27' },
+          { date: '2025-04-15', focus: 'Revision', test: 'Revision' },
+          { date: '2025-04-16', focus: 'Ratta', test: 'Random Tests IR Mapping' },
+          { date: '2025-04-17', focus: 'Other', test: 'SFG1-36 SFG2-40' },
+          { date: '2025-04-18', focus: 'Revision', test: 'Revision' },
+          { date: '2025-04-19', focus: 'Ratta', test: 'SFG1-1,2,6 SFG2-21,22' },
+          { date: '2025-04-20', focus: 'Polity', test: 'NxT-1,2,3' },
+          { date: '2025-04-21', focus: 'Revision', test: 'Revision' },
+          { date: '2025-04-22', focus: 'Ratta', test: 'SFG1-2,8,9 SFG2-24' },
+          { date: '2025-04-23', focus: 'Polity', test: 'NxT-4,5,6' },
+          { date: '2025-04-24', focus: 'Revision', test: 'Revision' },
+          { date: '2025-04-25', focus: 'Ratta', test: 'SFG1-10,11,12,16 SFG2-1,2' },
+          { date: '2025-04-26', focus: 'Economy', test: 'NxT-7,8,9' },
+          { date: '2025-04-27', focus: 'Abhyas-2', test: 'Abhyas-2' },
+          { date: '2025-04-28', focus: 'Ratta', test: 'SFG1-14,15 SFG2-4,7' }, // Assuming SFG1-1415 was a typo for 14,15
+          { date: '2025-04-29', focus: 'Economy', test: 'NxT-10,11,12' },
+          { date: '2025-04-30', focus: 'Revision', test: 'Revision' },
+          { date: '2025-05-01', focus: 'Ratta', test: 'SFG1-43,44,45,46 SFG2-33' }, // Added commas for clarity
+          { date: '2025-05-02', focus: 'A&M History', test: 'NxT-13,14,15' },
+          { date: '2025-05-03', focus: 'Revision', test: 'Revision' },
+          { date: '2025-05-04', focus: 'Ratta', test: 'SFG1-23,26,27 SFG2-25,26,28' },
+          { date: '2025-05-05', focus: 'Modern History', test: 'NxT-16,17,18' },
+          { date: '2025-05-06', focus: 'Revision', test: 'Revision' },
+          { date: '2025-05-07', focus: 'Ratta', test: 'SFG1-31,32,33 SFG2-8,9,10' }, // Added commas for clarity
+          { date: '2025-05-08', focus: 'Geography', test: 'NxT-19,20,21' },
+          { date: '2025-05-09', focus: 'Revision', test: 'Revision' },
+          { date: '2025-05-10', focus: 'Ratta', test: 'NxT-ST4,SC4' },
+          { date: '2025-05-11', focus: 'Abhyas-3', test: 'Abhyas-3' },
+          { date: '2025-05-12', focus: 'Rest', test: 'Rest' },
+          { date: '2025-05-13', focus: 'FLT', test: 'NxT-ST1,SC1' },
+          { date: '2025-05-14', focus: 'FLT', test: 'Any' },
+          { date: '2025-05-15', focus: 'FLT', test: 'Any' },
+          { date: '2025-05-16', focus: 'Revision', test: 'Revision' },
+          { date: '2025-05-17', focus: 'FLT', test: 'NxT-ST5,SC5' }
+        ];
 
-      const tbody = document.getElementById('scheduleBody');
-      // Get today's IST date and clear the time to compare dates correctly
-      const today = new Date(new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }));
-      today.setHours(0, 0, 0, 0);
-
-      scheduleData.forEach(entry => {
-        const row = document.createElement('tr');
-        // Construct date in IST; our schedule dates are provided in YYYY-MM-DD format
-        const entryDate = new Date(entry.date + 'T00:00:00+05:30');
-
-        // Mark past dates as "Completed"
-        if (entryDate.getTime() < today.getTime()) {
-          row.classList.add('past-date');
+        const tbody = document.getElementById('scheduleBody');
+        if (!tbody) {
+            console.error("Schedule table body not found!");
+            return;
         }
-        // Mark today's date
-        if (entryDate.toDateString() === today.toDateString()) {
-          row.classList.add('current-date');
-        }
-        // Optional: add urgency marker for upcoming dates (if within 3 days)
-        if (entryDate.getTime() > today.getTime() && entryDate.getTime() - today.getTime() < 3 * 24 * 3600 * 1000) {
-          row.classList.add('urgent-date');
-        }
+        tbody.innerHTML = ''; // Clear loading message
 
-        row.innerHTML = `
-          <td>${formatDate(entryDate)}</td>
-          <td>${entry.focus}</td>
-          <td>${entry.test}</td>
-          <td>${getStatus(entryDate, today)}</td>
-        `;
-        tbody.appendChild(row);
-      });
+        const now = new Date(); // Get the current moment
 
-      function formatDate(date) {
-        return date.toLocaleDateString('en-IN', {
-          day: '2-digit',
-          month: 'short',
-          year: 'numeric'
+        // Get today's date formatted as YYYY-MM-DD in the IST timezone.
+        // 'en-CA' locale reliably produces the YYYY-MM-DD format needed for string comparison.
+        const todayISTStr = now.toLocaleDateString('en-CA', { timeZone: 'Asia/Kolkata' });
+        // Example: If today is April 9th, 2025 IST, todayISTStr will be "2025-04-09"
+
+        scheduleData.forEach(entry => {
+            const row = document.createElement('tr');
+            const entryDateStr = entry.date; // The date from data is already YYYY-MM-DD
+
+            // Parse the entry date string into a Date object *only* for formatting display date.
+            // Explicitly set time and timezone offset (+05:30 for IST).
+            const entryDateObj = new Date(entry.date + 'T00:00:00+05:30');
+
+            let statusBadge;
+            let rowClass = '';
+
+            // Compare dates as strings (YYYY-MM-DD format ensures correct chronological comparison)
+            if (entryDateStr < todayISTStr) {
+                // Date is in the past
+                statusBadge = '<span class="badge bg-secondary rounded-pill">Completed</span>';
+                rowClass = 'past-date'; // Apply past date styling (greying out)
+            } else if (entryDateStr === todayISTStr) {
+                // Date is today
+                statusBadge = '<span class="badge bg-primary rounded-pill">Today</span>';
+                rowClass = 'current-date'; // Apply current date styling
+            } else {
+                // Date is in the future
+                statusBadge = '<span class="badge bg-success rounded-pill">Upcoming</span>';
+                // No special class for upcoming dates needed by default
+            }
+
+            // Add the determined class to the row if applicable
+            if (rowClass) row.classList.add(rowClass);
+
+            // Format the date using the Date object we created for display purposes
+            const formattedDate = entryDateObj.toLocaleDateString('en-IN', {
+                  day: '2-digit',
+                  month: 'short',
+                  year: 'numeric',
+                  timeZone: 'Asia/Kolkata' // Ensure display consistency using IST
+              }).replace(/-/g, ' '); // Format like "11 Apr 2025"
+
+
+            row.innerHTML = `
+                <td>${formattedDate}</td>
+                <td>${entry.focus}</td>
+                <td>${entry.test}</td>
+                <td>${statusBadge}</td>
+            `;
+            tbody.appendChild(row);
         });
-      }
-
-      function getStatus(entryDate, todayDate) {
-        if (entryDate.getTime() < todayDate.getTime()) return '<span class="badge bg-secondary">Completed</span>';
-        if (entryDate.toDateString() === todayDate.toDateString()) return '<span class="badge bg-primary">Today</span>';
-        return '<span class="badge bg-success">Upcoming</span>';
-      }
     }
 
-    // Initialize the application after the DOM is fully loaded
+    // Initialize the application once the DOM has fully loaded
     window.addEventListener('DOMContentLoaded', () => {
+      console.log("DOM Loaded, Initializing Application...");
       initializeApplication();
     });
   </script>
