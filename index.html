@@ -44,6 +44,10 @@
       color: var(--primary-color);
     }
 
+    .urgent-date {
+      background-color: #ffecec !important;
+    }
+
     .schedule-table {
       background: white;
       border-radius: 15px;
@@ -53,9 +57,24 @@
 
     .quote-card {
       border-left: 4px solid var(--secondary-color);
-      background: rgba(255, 255, 255, 0.9);
-      padding: 1.5rem;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 1.5rem 2rem;
       border-radius: 8px;
+      font-style: italic;
+      position: relative;
+      margin-bottom: 2rem;
+    }
+
+    .quote-card blockquote {
+      margin: 0;
+    }
+
+    .quote-card i {
+      position: absolute;
+      top: -15px;
+      left: -10px;
+      font-size: 3rem;
+      color: var(--secondary-color);
     }
 
     .progress-bar-custom {
@@ -91,7 +110,7 @@
     </div>
 
     <!-- Motivational Quote -->
-    <div id="motivationalQuote" class="quote-card shadow mb-5"></div>
+    <div id="motivationalQuote" class="quote-card shadow"></div>
 
     <!-- Schedule Table -->
     <div class="schedule-table shadow-lg">
@@ -116,6 +135,7 @@
     </div>
   </div>
 
+  <!-- JS Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     // Application Initialization
@@ -123,13 +143,16 @@
       startCountdown();
       showRandomQuote();
       initializeSchedule();
-      // Refresh the motivational quote every minute
+      // Refresh the motivational quote every minute only while active
       setInterval(showRandomQuote, 60000);
     }
 
-    // Motivational Quotes with API Fallbacks
+    // Motivational Quotes with API Fallbacks and Enhanced Style
     function showRandomQuote() {
       const quoteContainer = document.getElementById('motivationalQuote');
+      
+      // Clear any previous content
+      quoteContainer.innerHTML = '';
 
       // Try API Ninjas first
       fetch('https://api.api-ninjas.com/v1/quotes?category=inspirational', {
@@ -139,8 +162,8 @@
         .then(data => {
           if (data[0]?.quote) {
             quoteContainer.innerHTML = `
-              <i class="fas fa-quote-left me-2"></i>
-              ${data[0].quote}
+              <i class="fas fa-quote-left"></i>
+              <blockquote>${data[0].quote}</blockquote>
               <div class="text-end mt-2 text-muted">- ${data[0].author}</div>
             `;
           } else {
@@ -154,8 +177,8 @@
             .then(data => {
               if (data?.quote) {
                 quoteContainer.innerHTML = `
-                  <i class="fas fa-quote-left me-2"></i>
-                  ${data.quote}
+                  <i class="fas fa-quote-left"></i>
+                  <blockquote>${data.quote}</blockquote>
                   <div class="text-end mt-2 text-muted">- ${data.author}</div>
                 `;
               } else {
@@ -163,8 +186,7 @@
               }
             })
             .catch(fallbackLocalQuotes);
-        });
-
+      
       function fallbackLocalQuotes() {
         const quotes = [
           "Satyameva Jayate (Truth alone triumphs) - Mundaka Upanishad",
@@ -174,13 +196,18 @@
           "Success is the sum of small efforts, repeated day in and day out - R. Collier"
         ];
         const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-        quoteContainer.innerHTML = `<i class="fas fa-quote-left me-2"></i>${randomQuote}`;
+        quoteContainer.innerHTML = `
+          <i class="fas fa-quote-left"></i>
+          <blockquote>${randomQuote}</blockquote>
+        `;
       }
     }
 
     // Enhanced Countdown with IST
     function startCountdown() {
+      // Target date: UPSC Prelims 2025 (IST)
       const countDownDate = new Date("May 25, 2025 08:00:00 GMT+0530").getTime();
+      // Start date for progress tracking (January 1, 2024, IST)
       const startDate = new Date("2024-01-01T00:00:00+05:30").getTime();
       const totalDuration = countDownDate - startDate;
 
@@ -228,7 +255,7 @@
       requestAnimationFrame(updateTimer);
     }
 
-    // Schedule Initialization
+    // Schedule Initialization with Date Urgency
     function initializeSchedule() {
       const scheduleData = [
         { date: '2025-04-11', focus: 'ENVIRONMENT', test: 'NxT-22,23,24' },
@@ -271,6 +298,7 @@
       ];
 
       const tbody = document.getElementById('scheduleBody');
+      // Get today's date in IST and set time to midnight for an accurate date comparison
       const today = new Date(new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }));
       today.setHours(0, 0, 0, 0);
 
@@ -278,8 +306,18 @@
         const row = document.createElement('tr');
         const entryDate = new Date(entry.date + 'T00:00:00+05:30');
 
-        if (entryDate < today) row.classList.add('past-date');
-        if (entryDate.toDateString() === today.toDateString()) row.classList.add('current-date');
+        // Mark past dates as "Completed"
+        if (entryDate.getTime() < today.getTime()) {
+          row.classList.add('past-date');
+        }
+        // Mark today's date
+        if (entryDate.toDateString() === today.toDateString()) {
+          row.classList.add('current-date');
+        }
+        // Add an urgency marker if the date is upcoming and within 3 days
+        if (entryDate.getTime() > today.getTime() && entryDate.getTime() - today.getTime() < 3 * 24 * 3600 * 1000) {
+          row.classList.add('urgent-date');
+        }
 
         row.innerHTML = `
           <td>${formatDate(entryDate)}</td>
@@ -295,12 +333,12 @@
           day: '2-digit',
           month: 'short',
           year: 'numeric'
-        }).replace(/-/g, ' ');
+        });
       }
 
       function getStatus(entryDate, todayDate) {
-        if (entryDate < todayDate) return '<span class="badge bg-secondary">Completed</span>';
-        if (entryDate.getTime() === todayDate.getTime()) return '<span class="badge bg-primary">Today</span>';
+        if (entryDate.getTime() < todayDate.getTime()) return '<span class="badge bg-secondary">Completed</span>';
+        if (entryDate.toDateString() === todayDate.toDateString()) return '<span class="badge bg-primary">Today</span>';
         return '<span class="badge bg-success">Upcoming</span>';
       }
     }
