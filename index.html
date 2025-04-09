@@ -1,347 +1,232 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Prelims 2025 Master Tracker</title>
-  <!-- Bootstrap 5 -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UPSC Prelims 2025 Planner</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    :root {
-      --primary-color: #2a2a72;
-      --secondary-color: #009ffd;
-      --accent-color: #ff3c00;
-    }
-
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-      min-height: 100vh;
-      position: relative;
-      overflow-x: hidden;
-      transition: background 0.5s ease;
-    }
-
-    .neumorphic {
-      background: #f0f0f3;
-      border-radius: 20px;
-      box-shadow: 10px 10px 21px #d3d3d6,
-                  -10px -10px 21px #ffffff;
-      transition: transform 0.3s ease;
-    }
-
-    .password-card, .content-card {
-      max-width: 800px;
-      margin: 2rem auto;
-      padding: 2rem;
-    }
-
-    .password-card:hover {
-      transform: translateY(-5px);
-    }
-
-    /* Modern Floating Countdown */
-    #countdown {
-      position: absolute;
-      top: 20%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 2.5rem;
-      font-weight: 600;
-      color: var(--primary-color);
-      background: rgba(255, 255, 255, 0.8);
-      border-radius: 15px;
-      padding: 2rem 3rem;
-      z-index: 1000;
-      text-align: center;
-    }
-
-    .motivational-quote {
-      font-style: italic;
-      color: var(--primary-color);
-      border-left: 4px solid var(--secondary-color);
-      padding-left: 1rem;
-      margin: 2rem 0;
-      background: #ffffff;
-      border-radius: 12px;
-      padding: 1.5rem;
-    }
-
-    .schedule-table {
-      background: #ffffff;
-      border-radius: 15px;
-      overflow: hidden;
-    }
-
-    .highlight-today {
-      background-color: #e3f2fd !important;
-      font-weight: 600;
-    }
-
-    .progress-bar-custom {
-      height: 8px;
-      border-radius: 4px;
-      background-color: #e0e0e0;
-    }
-
-    .progress-custom {
-      height: 100%;
-      background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
-      transition: width 0.5s ease;
-    }
-
-    @media (max-width: 768px) {
-      #countdown {
-        font-size: 1.8rem;
-        padding: 1.5rem 2rem;
-      }
-    }
+    .past-date { background-color: #f8f9fa; opacity: 0.7; }
+    .current-date { background-color: #e3f2fd!important; }
+    .countdown-card { background: rgba(255,255,255,0.9); border-radius: 15px; }
+    .quote-card { border-left: 4px solid #0d6efd; padding-left: 1rem; margin: 2rem 0; }
   </style>
 </head>
-<body>
-  <!-- Password Section -->
-  <div id="loginForm" class="password-card neumorphic">
-    <div class="text-center mb-4">
-      <i class="fas fa-lock fa-3x text-primary mb-3"></i>
-      <h2 class="fw-bold">Prelims Preparation Portal</h2>
-      <p class="text-muted">Enter your access code to continue</p>
-    </div>
-    <div class="input-group mb-3">
-      <input type="password" id="password" class="form-control form-control-lg" 
-             placeholder="Enter Password" style="border-radius: 12px;">
-      <button class="btn btn-primary btn-lg" onclick="checkPassword()" 
-              style="border-radius: 12px; margin-left: 1rem;">
-        Unlock <i class="fas fa-arrow-right"></i>
-      </button>
-    </div>
-    <div class="text-center mt-3">
-      <small class="text-muted">"Success is the sum of small efforts, repeated day in and day out."</small>
+<body class="bg-light">
+  <!-- Login Section -->
+  <div id="loginSection" class="d-flex min-vh-100 justify-content-center align-items-center">
+    <div class="card shadow" style="width: 22rem;">
+      <div class="card-body">
+        <h3 class="card-title text-center mb-4">UPSC Login</h3>
+        <form id="loginForm">
+          <div class="mb-3">
+            <input type="password" id="password" class="form-control" placeholder="Enter Password" required>
+          </div>
+          <div class="d-grid">
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+        <div id="loginError" class="text-danger mt-2 text-center"></div>
+      </div>
     </div>
   </div>
 
   <!-- Main Content -->
-  <div id="content" style="display: none; padding-top: 5rem;">
-    <!-- Floating Countdown -->
-    <div id="countdown" class="neumorphic"></div>
+  <div id="mainContent" class="container py-5" style="display: none;">
+    <!-- Countdown -->
+    <div class="countdown-card p-4 mb-5 shadow">
+      <h2 class="text-center mb-3">Prelims 2025 Countdown</h2>
+      <div id="countdown" class="text-center fs-4"></div>
+    </div>
 
-    <div class="container">
-      <!-- Header Section -->
-      <div class="text-center mb-5" style="margin-top: 300px;">
-        <h1 class="display-4 fw-bold mb-3">UPSC Prelims 2025 Master Tracker</h1>
-      </div>
+    <!-- Motivational Quote -->
+    <div id="motivationalQuote" class="quote-card"></div>
 
-      <!-- Progress Bar -->
-      <div class="progress-bar-custom mb-5 neumorphic">
-        <div id="timeProgress" class="progress-custom"></div>
-      </div>
-
-      <!-- Motivational Quote -->
-      <div id="motivationalQuote" class="motivational-quote neumorphic">
-        Loading motivational quote...
-      </div>
-
-      <!-- Schedule Table -->
-      <div class="schedule-table shadow-lg mb-5">
-        <div class="p-3 bg-primary text-white">
-          <h4 class="mb-0"><i class="fas fa-calendar-alt me-2"></i>Study Plan Timeline</h4>
-        </div>
+    <!-- Schedule Table -->
+    <div class="card shadow">
+      <div class="card-body">
+        <h3 class="card-title mb-4"><i class="fas fa-calendar-alt"></i> Study Plan</h3>
         <div class="table-responsive">
-          <table class="table table-hover mb-0">
-            <thead class="table-light">
+          <table class="table table-hover">
+            <thead>
               <tr>
                 <th>Date</th>
-                <th>Focus Area</th>
-                <th>Test/Activity</th>
-                <th>Status</th>
+                <th>Target</th>
+                <th>Test</th>
               </tr>
             </thead>
             <tbody id="scheduleBody">
-              <!-- Schedule data will be injected dynamically -->
+              <!-- Dynamic content -->
             </tbody>
           </table>
-        </div>
-      </div>
-
-      <!-- Quick Stats -->
-      <div class="row mt-5">
-        <div class="col-md-4 mb-3">
-          <div class="neumorphic p-3 text-center">
-            <h5 class="text-muted">Days Remaining</h5>
-            <h2 id="daysRemaining" class="fw-bold text-primary">-</h2>
-          </div>
-        </div>
-        <div class="col-md-4 mb-3">
-          <div class="neumorphic p-3 text-center">
-            <h5 class="text-muted">Upcoming Test</h5>
-            <h2 id="nextTest" class="fw-bold text-primary">-</h2>
-          </div>
-        </div>
-        <div class="col-md-4 mb-3">
-          <div class="neumorphic p-3 text-center">
-            <h5 class="text-muted">Current Focus</h5>
-            <h2 id="currentFocus" class="fw-bold text-primary">-</h2>
-          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Bootstrap 5 JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- Font Awesome (for icons) -->
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
   <script>
-    // Check if user is already logged in using localStorage
-    window.addEventListener('load', () => {
-      if (localStorage.getItem('loggedIn') === 'true') {
-        showContent();
-      }
-    });
-
-    // Enhanced Password Check with Enter Key Support
-    document.getElementById('password').addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') checkPassword();
-    });
-
-    function checkPassword() {
-      const pwd = document.getElementById('password').value;
-      if (pwd === 'kishu') {
-        localStorage.setItem('loggedIn', 'true');
-        // Animate and show content
-        document.getElementById('loginForm').classList.add('animate__fadeOutUp');
-        setTimeout(() => {
-          showContent();
-        }, 500);
+    // Login Handler
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      if (document.getElementById('password').value === 'kishu') {
+        document.getElementById('loginSection').style.display = 'none';
+        document.getElementById('mainContent').style.display = 'block';
+        initializeApp();
       } else {
-        showAlert('Incorrect password! Please try again.');
+        showError('Incorrect password!');
       }
+    });
+
+    function showError(msg) {
+      const div = document.createElement('div');
+      div.className = 'alert alert-danger mt-2';
+      div.textContent = msg;
+      document.getElementById('loginError').appendChild(div);
+      setTimeout(() => div.remove(), 3000);
     }
 
-    function showAlert(message) {
-      const alertDiv = document.createElement('div');
-      alertDiv.className = 'alert alert-danger mt-3';
-      alertDiv.textContent = message;
-      document.querySelector('.password-card').appendChild(alertDiv);
-      setTimeout(() => alertDiv.remove(), 3000);
+    // Countdown Timer with IST
+    function startCountdown() {
+      const prelimsDate = new Date('May 25, 2025 08:00:00 GMT+0530').getTime();
+      
+      function update() {
+        const now = new Date().getTime();
+        const diff = prelimsDate - now;
+        
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        
+        document.getElementById('countdown').innerHTML = `
+          ${days} days ${hours} hours remaining
+          <div class="text-muted small mt-2">Next Prelims: 25th May 2025 8:00 AM IST</div>
+        `;
+        
+        if (diff > 0) requestAnimationFrame(update);
+      }
+      requestAnimationFrame(update);
     }
 
-    function showContent() {
-      document.getElementById('loginForm').style.display = 'none';
-      document.getElementById('content').style.display = 'block';
-      startCountdown();
-      initSchedule();
-      showRandomQuote();
-    }
+    // Schedule Data
+    const scheduleData = [
+      { date: '2025-04-11', target: 'ENVIRONMENT', test: 'NxT-22,23,24' },
+      { date: '2025-04-12', target: 'revision', test: 'revision' },
+      { date: '2025-04-13', target: 'ratta', test: 'sfg1-37,38 sfg2-30,31' },
+      { date: '2025-04-14', target: 'S&amp;T', test: 'NxT-25,26,27' },
+      { date: '2025-04-15', target: 'revision', test: 'revision' },
+      { date: '2025-04-16', target: 'Ratta', test: 'random tests IR-mapping-bodies' },
+      { date: '2025-04-17', target: 'Other', test: 'Sfg1-36, Sfg2-40' },
+      { date: '2025-04-18', target: 'revision', test: 'revision' },
+      { date: '2025-04-19', target: 'Ratta', test: 'sfg1-1,2,6 sfg2-21,22' },
+      { date: '2025-04-20', target: 'Polity', test: 'NxT-1,2,3' },
+      { date: '2025-04-21', target: 'revision', test: 'revision' },
+      { date: '2025-04-22', target: 'Ratta', test: 'sfg1-2,8,9 sfg2-24' },
+      { date: '2025-04-23', target: 'Polity', test: 'NxT-4,5,6' },
+      { date: '2025-04-24', target: 'revision', test: 'revision' },
+      { date: '2025-04-25', target: 'Ratta', test: 'sfg1-10,11,12,16 sfg2-1,2' },
+      { date: '2025-04-26', target: 'Economy', test: 'NxT-7,8,9' },
+      { date: '2025-04-27', target: 'Abhyas-2', test: 'Abhyas-2' },
+      { date: '2025-04-28', target: 'Ratta', test: 'sfg1-1415 sfg2-4,7' },
+      { date: '2025-04-29', target: 'Economy', test: 'NxT-10,11,12' },
+      { date: '2025-04-30', target: 'revision', test: 'revision' },
+      { date: '2025-05-01', target: 'Ratta', test: 'sfg1-43-44-45-46 sfg2-33' },
+      { date: '2025-05-02', target: 'A&amp;M history', test: 'Nxt-13,14,15' },
+      { date: '2025-05-03', target: 'revision', test: 'revision' },
+      { date: '2025-05-04', target: 'Ratta', test: 'sfg1-23,26,27 sfg2-25,26,28' },
+      { date: '2025-05-05', target: 'Modern History', test: 'NxT-16,17,18' },
+      { date: '2025-05-06', target: 'revision', test: 'revision' },
+      { date: '2025-05-07', target: 'Ratta', test: 'sfg1-31-32-33 sfg2-8,9,10' },
+      { date: '2025-05-08', target: 'Geography', test: 'NxT-19,20,21' },
+      { date: '2025-05-09', target: 'revision', test: 'revision' },
+      { date: '2025-05-10', target: 'Ratta', test: 'Nxt-ST4,SC4' },
+      { date: '2025-05-11', target: 'Abhyas-3', test: 'Abhyas-3' },
+      { date: '2025-05-12', target: 'rest', test: 'rest' },
+      { date: '2025-05-13', target: 'FLT', test: 'NxT-ST1,SC1' },
+      { date: '2025-05-14', target: 'FLT', test: 'any' },
+      { date: '2025-05-15', target: 'FLT', test: 'any' },
+      { date: '2025-05-16', target: 'Revision', test: 'Revision' },
+      { date: '2025-05-17', target: 'FLT', test: 'Nxt-ST5,SC5' }
+    ];
 
-    // Dynamic Motivational Quote Fetching using two APIs
-    function showRandomQuote() {
+    // Motivational Quotes
+    function fetchQuote() {
       const quoteContainer = document.getElementById('motivationalQuote');
-      // First try API Ninjas using your provided key
+      
+      // First try API Ninjas
       fetch('https://api.api-ninjas.com/v1/quotes?category=inspirational', {
         headers: { 'X-Api-Key': 'UoZQOaGr/NlucBsGLgP/Zg==TPL2dMzEFTHRkWj8' }
       })
-      .then(response => {
-        if (!response.ok) throw new Error("API Ninjas request failed");
-        return response.json();
-      })
+      .then(response => response.json())
       .then(data => {
-        if (data && data.length > 0) {
-          let quote = data[0];
-          quoteContainer.textContent = `${quote.quote} - ${quote.author}`;
+        if (data[0]?.quote) {
+          quoteContainer.innerHTML = `<i class="fas fa-quote-left"></i> ${data[0].quote} <br>- ${data[0].author}`;
         } else {
-          throw new Error("No quote found");
+          throw new Error('Failed to fetch quote');
         }
       })
-      .catch(error => {
-        // Fallback to The Quotes Hub API
+      .catch(() => {
+        // Fallback to The Quotes Hub
         fetch('https://thequoteshub.com/api/quotes/random')
           .then(response => response.json())
           .then(data => {
-            if (data && data.quote) {
-              quoteContainer.textContent = `${data.quote} - ${data.author}`;
+            if (data?.quote) {
+              quoteContainer.innerHTML = `<i class="fas fa-quote-left"></i> ${data.quote} <br>- ${data.author}`;
             } else {
-              fallbackLocalQuotes(quoteContainer);
+              showLocalQuote();
             }
           })
-          .catch(err => fallbackLocalQuotes(quoteContainer));
+          .catch(() => showLocalQuote());
       });
     }
 
-    function fallbackLocalQuotes(container) {
+    function showLocalQuote() {
       const quotes = [
         "The secret of getting ahead is getting started. - Mark Twain",
         "Don't count the days, make the days count. - Muhammad Ali",
-        "Success is no accident. It is hard work, perseverance, learning, sacrifice and most of all, love of what you are doing. - Pelé",
+        "Success is the sum of small efforts, repeated day in and day out. - R. Collier",
         "The future belongs to those who believe in the beauty of their dreams. - Eleanor Roosevelt",
-        "You are never too old to set another goal or to dream a new dream. - C.S. Lewis",
-        "The only limit to our realization of tomorrow will be our doubts of today. - Franklin D. Roosevelt"
+        "You are braver than you believe, stronger than you seem, and smarter than you think. - A.A. Milne"
       ];
-      container.textContent = quotes[Math.floor(Math.random() * quotes.length)];
+      const quote = quotes[Math.floor(Math.random() * quotes.length)];
+      document.getElementById('motivationalQuote').innerHTML = `<i class="fas fa-quote-left"></i> ${quote}`;
     }
 
-    // Enhanced Countdown with Floating Design and Progress Bar
-    function startCountdown() {
-      const countDownDate = new Date("May 25, 2025 08:00:00").getTime();
-      const totalTime = countDownDate - new Date("Jan 1, 2024 00:00:00").getTime();
-      
-      const updateTimer = setInterval(() => {
-        const now = new Date().getTime();
-        const distance = countDownDate - now;
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    // Schedule Render with Date Checking
+    function renderSchedule() {
+      const tbody = document.getElementById('scheduleBody');
+      const today = new Date(new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }));
+      today.setHours(0,0,0,0);
 
-        // Update Countdown Display
-        document.getElementById("countdown").innerHTML = `
-          <div class="d-flex justify-content-around">
-            <div>${days}<br><small>Days</small></div>
-            <div>${hours}<br><small>Hours</small></div>
-            <div>${minutes}<br><small>Minutes</small></div>
-            <div>${seconds}<br><small>Seconds</small></div>
-          </div>
+      scheduleData.forEach(entry => {
+        const row = document.createElement('tr');
+        const entryDate = new Date(entry.date + 'T00:00:00+05:30');
+        
+        if (entryDate < today) row.classList.add('past-date');
+        if (entryDate.getTime() === today.getTime()) row.classList.add('current-date');
+
+        row.innerHTML = `
+          <td>${formatDate(entryDate)}</td>
+          <td>${entry.target}</td>
+          <td>${entry.test}</td>
         `;
-
-        // Update Progress Bar
-        const elapsed = now - new Date("Jan 1, 2024 00:00:00").getTime();
-        const progress = (elapsed / totalTime) * 100;
-        document.getElementById('timeProgress').style.width = `${Math.min(progress, 100)}%`;
-
-        if (distance < 0) {
-          clearInterval(updateTimer);
-          document.getElementById("countdown").innerHTML = "Prelims 2025 Has Begun!";
-        }
-      }, 1000);
-    }
-
-    // Schedule Initialization (placeholder for further enhancements)
-    function initSchedule() {
-      const scheduleBody = document.getElementById('scheduleBody');
-      // Example schedule data
-      const schedule = [
-        { date: "2024-12-01", focus: "General Studies", activity: "Mock Test", status: "Pending" },
-        { date: "2024-12-15", focus: "Current Affairs", activity: "Quiz", status: "Pending" },
-        { date: "2025-01-10", focus: "Optional Subject", activity: "Revision", status: "Pending" }
-      ];
-      schedule.forEach(item => {
-        const tr = document.createElement('tr');
-        const today = new Date().toISOString().split('T')[0];
-        if (item.date === today) tr.classList.add('highlight-today');
-        tr.innerHTML = `
-          <td>${item.date}</td>
-          <td>${item.focus}</td>
-          <td>${item.activity}</td>
-          <td>${item.status}</td>
-        `;
-        scheduleBody.appendChild(tr);
+        tbody.appendChild(row);
       });
+    }
 
-      // Quick Stats example update (could be dynamically computed)
-      document.getElementById('daysRemaining').textContent = Math.max(0, Math.floor((new Date("May 25, 2025 08:00:00") - new Date()) / (1000*60*60*24)));
-      document.getElementById('nextTest').textContent = schedule[0].activity;
-      document.getElementById('currentFocus').textContent = schedule[0].focus;
+    // Indian date format: DD-MMM-YYYY
+    function formatDate(date) {
+      return date.toLocaleDateString('en-IN', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric'
+      }).replace(/-/g, ' ');
+    }
+
+    function initializeApp() {
+      startCountdown();
+      renderSchedule();
+      fetchQuote();
     }
   </script>
 </body>
